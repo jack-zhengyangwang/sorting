@@ -165,7 +165,7 @@ def two_city_sched_cost(costs):
     temp = 0
     for i in range(n):
         temp += sort_cost[i][0]
-    for i in range(n, 2*n):
+    for i in range(n, 2 * n):
         temp += sort_cost[i][1]
 
     return temp

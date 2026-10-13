@@ -15,7 +15,7 @@ you are welcome to use built-in functions or the functions in sorting.py
 CSCI148: Graph Algorithms will teach you how to solve problems like this
 without needing any hints.
 '''
-
+from functools import cmp_to_key
 
 def merge_intervals(intervals):
     '''
@@ -40,8 +40,19 @@ def merge_intervals(intervals):
     enough.  Whenever the next interval starts at or before the end of
     the last merged one, extend it; otherwise start a new interval.
     '''
-    def key(interval):
-        return interval[0]
+    if not intervals:
+        return []
+
+    sort_main = sorted(intervals, key=lambda x: x[0])
+    finished_intervals = [sort_main[0][:]]
+
+    for start, end in sort_main[1:]:
+        if start <= finished_intervals[-1][1]:
+            finished_intervals[-1][1] = max(finished_intervals[-1][1], end)
+        else:
+            finished_intervals.append([start, end])
+
+    return finished_intervals
 
 
 def rank_teams(votes):
@@ -74,12 +85,15 @@ def rank_teams(votes):
     '''
     # counts[team][i] is the number of voters who ranked `team`
     # in position i -- fill this in before sorting.
-    counts = {}
+    counts = {team: [0] * len(votes[0]) for team in votes[0]}
+    for vote in votes:
+        for i in range(len(votes[0])):
+            counts[vote[i]][i] += 1
 
     def key(team):
         # negated counts sort descending; the letter breaks ties
         return tuple(-n for n in counts[team]) + (team,)
-
+    return ''.join(sorted(counts, key = key))
 
 def largest_number(nums):
     '''
@@ -103,10 +117,17 @@ def largest_number(nums):
     key, so wrap it with functools.cmp_to_key.  The all-zeros input must
     come out as the single string '0'.
     '''
+    string_list = []
+    for x in nums:
+        string_list.append(str(x))
+
     def cmp(a, b):
         if a + b > b + a:
             return -1
         return 1 if b + a > a + b else 0
+    string_list.sort(key = cmp_to_key(cmp))
+    num = ''.join(string_list)
+    return "0" if num[0] == "0" else num
 
 
 def two_city_sched_cost(costs):
@@ -136,3 +157,13 @@ def two_city_sched_cost(costs):
     '''
     def key(cost):
         return cost[0] - cost[1]
+
+    n = len(costs) // 2
+    sort_cost = sorted(costs, key = key)
+    temp = 0
+    for i in range(n):
+        temp += sort_cost[i][0]
+    for i in range(n, 2*n):
+        temp += sort_cost[i][1]
+
+    return temp

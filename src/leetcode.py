@@ -17,6 +17,7 @@ without needing any hints.
 '''
 from functools import cmp_to_key
 
+
 def merge_intervals(intervals):
     '''
     LeetCode 56 -- Merge Intervals
@@ -93,7 +94,8 @@ def rank_teams(votes):
     def key(team):
         # negated counts sort descending; the letter breaks ties
         return tuple(-n for n in counts[team]) + (team,)
-    return ''.join(sorted(counts, key = key))
+    return ''.join(sorted(counts, key=key))
+
 
 def largest_number(nums):
     '''
@@ -125,7 +127,7 @@ def largest_number(nums):
         if a + b > b + a:
             return -1
         return 1 if b + a > a + b else 0
-    string_list.sort(key = cmp_to_key(cmp))
+    string_list.sort(key=cmp_to_key(cmp))
     num = ''.join(string_list)
     return "0" if num[0] == "0" else num
 
@@ -159,7 +161,7 @@ def two_city_sched_cost(costs):
         return cost[0] - cost[1]
 
     n = len(costs) // 2
-    sort_cost = sorted(costs, key = key)
+    sort_cost = sorted(costs, key=key)
     temp = 0
     for i in range(n):
         temp += sort_cost[i][0]

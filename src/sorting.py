@@ -17,6 +17,7 @@ equivalently, the result of every call to cmp is negated.
 import math
 import random
 
+
 def cmp_standard(a, b):
     '''
     used for sorting from lowest to highest
@@ -259,6 +260,7 @@ def _merged(xs, ys, cmp=cmp_standard, reverse=False):
     final += ys[j:]
     return final
 
+
 def merge_sorted(xs, cmp=cmp_standard, reverse=False):
     '''
     Merge sort is the standard O(n log n) sorting algorithm.
@@ -290,9 +292,9 @@ def merge_sorted(xs, cmp=cmp_standard, reverse=False):
     if len(xs) <= 1:
         return xs
     mid = len(xs) // 2
-    l = merge_sorted(xs[:mid], cmp = cmp)
-    r = merge_sorted(xs[mid:], cmp = cmp)
-    return _merged(l, r, cmp = cmp)
+    le = merge_sorted(xs[:mid], cmp=cmp)
+    r = merge_sorted(xs[mid:], cmp=cmp)
+    return _merged(le, r, cmp=cmp)
 
 
 def quick_sorted(xs, cmp=cmp_standard, reverse=False):
@@ -300,7 +302,7 @@ def quick_sorted(xs, cmp=cmp_standard, reverse=False):
     Quicksort is like mergesort,
     but it uses a different strategy to split the list.
     Instead of splitting the list down the middle,
-    a "pivot" value is randomly selected, 
+    a "pivot" value is randomly selected,
     and the list is split into a "less than" sublist and a "greater than" sublist.
 
     The pseudocode is:
@@ -344,7 +346,8 @@ def quick_sorted(xs, cmp=cmp_standard, reverse=False):
             greater.append(x)
         else:
             equal.append(x)
-    return quick_sorted(less, cmp = cmp) + equal + quick_sorted(greater, cmp = cmp)
+    return quick_sorted(less, cmp=cmp) + equal + quick_sorted(greater, cmp=cmp)
+
 
 def quick_sort(xs, cmp=cmp_standard, reverse=False):
     '''
